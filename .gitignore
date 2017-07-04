@@ -1,0 +1,51 @@
+#ignore obj and lib file
+dist
+rev
+node_modules
+
+### OSX template
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# IntelliJ project files
+.idea
+*.iml
+out
+gen
+
+### Sass template
+.sass-cache/
+*.css.map
+
+### Vim template
+# swap
+[._]*.s[a-w][a-z]
+[._]s[a-w][a-z]
+# session
+Session.vim
+# temporary
+.netrwhist
+*~
+# auto-generated tag files
+tags
+
+### SublimeText template
+# cache files for sublime text
+*.tmlanguage.cache
+*.tmPreferences.cache
+*.stTheme.cache
+
+# workspace files are user-specific
+*.sublime-workspace
+
+# project files should be checked into the repository, unless a significant
+# proportion of contributors will probably not be using SublimeText
+# *.sublime-project
+
+# sftp configuration file
+sftp-config.json
+
+npm-debug.log
+
+*.zip
