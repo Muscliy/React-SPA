@@ -32,6 +32,16 @@ module.exports = merge(baseWebpackConfig, {
       }
     ],
   },
+  resolve: {
+   extensions: ['.js', '.jsx', '.json'],
+   modules: [
+     "node_modules",
+     path.resolve(__dirname, "./")
+   ],
+   alias: {
+     '@': resolve('src')
+   }
+ },
   devtool: 'source-map',
   plugins: [
     new webpack.DefinePlugin({
