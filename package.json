@@ -27,7 +27,10 @@
       }
     },
     "build:dll": {
-      "command": "webpack --config build/webpack.dll.config.js"
+      "command": "webpack --config build/webpack.dll.config.js",
+      "env": {
+        "NODE_ENV": "development"
+      }
     },
     "build:dev": {
       "command": "node build/build.js",

@@ -2,7 +2,6 @@
 const lib = [
   'react', 
   'react-dom', 
-  'axios', 
   'blueimp-md5', 
   'classnames', 
   'cookie_js', 

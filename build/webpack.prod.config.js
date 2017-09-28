@@ -6,10 +6,39 @@ const rootDir = path.resolve(__dirname, '../');
 const appDir = path.resolve(rootDir, './app');
 const distDir = path.resolve(rootDir, './dist');
 const baseWebpackConfig = require('./webpack.base.config');
+const libs = require('./dependencies');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+const plugins = [
+  new webpack.optimize.CommonsChunkPlugin('common'),
+  new HtmlWebpackPlugin({
+    template: path.resolve(appDir, './entry.ejs'),
+    filename: 'index.html',
+    inject: 'body',
+    minify: {
+      collapseWhitespace: true,
+    },
+    hash: true,
+  }),
+  new OptimizeCSSPlugin(),
+  new webpack.LoaderOptionsPlugin({
+    minimize: true,
+    debug: false,
+  }),
+  new webpack.optimize.UglifyJsPlugin({
+    compress: {
+      warnings: false
+    },
+    sourceMap: false,
+    comments: false
+  })
+]
 
 module.exports = merge(baseWebpackConfig, {
   entry: {
     index: [path.resolve(appDir, './index.js')],
+    vendor: libs
   },
   module: {
     rules: [
@@ -20,50 +49,11 @@ module.exports = merge(baseWebpackConfig, {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['env', 'stage-0', 'stage-3', 'react'],
-            plugins: [
-              ["transform-runtime", {
-                "polyfill": false,
-                "regenerator": true
-              }],
-              ["transform-async-to-generator"],
-              ["transform-es2015-modules-commonjs"],
-              ["transform-export-extensions"],
-            ]
+            presets: ['env', 'stage-0', 'react'],
           }
         }
       }
     ],
   },
-  plugins: [
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('production')
-    }),
-    new webpack.LoaderOptionsPlugin({
-      minimize: true,
-      debug: false,
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor',
-      minChunks: function (module) {
-        return module.resource &&
-          /\.js$/.test(module.resource) &&
-          module.resource.indexOf(
-            path.join(__dirname, '../node_modules')
-          ) === 0 && module.context.indexOf('jquery') !== -1;
-      }
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'common'
-    }),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false
-      },
-      sourceMap: false,
-      comments: false
-    }),
-    new OptimizeCSSPlugin(),
-  ]
-
+  plugins: plugins
 });

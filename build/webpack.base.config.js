@@ -3,22 +3,25 @@ const path = require('path');
 const rootDir = path.resolve(__dirname, '../');
 const appDir = path.resolve(rootDir, './app');
 const distDir = path.resolve(rootDir, './dist');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
 const theme = require('./theme.js');
+const serverConfig = require('./server.config');
 
+console.log(serverConfig);
 var version = null;
 var server = null;
 
 if(process.argv.length > 2) {
-  version = process.argv[1];
+  version = process.argv[2];
+  console.log(version);
 }
 
 if(process.env.NODE_ENV == 'production') {
-  server = serverConfig[process.env.DEPLOY_ENV].server;
+  server = serverConfig[process.env.DEPLOY_ENV].api;
+  console.log(server);
 }
 
-console.log(path.resolve(rootDir));
 
 module.exports = {
   context: rootDir,
@@ -109,18 +112,13 @@ module.exports = {
     }
   },
   plugins: [
-    new HtmlWebpackPlugin({
-      template: path.resolve(appDir, './index.html'),
-      filename: 'index.html',
-      inject: 'body',
-      hash: true
-    }),
     new ExtractTextPlugin({
       filename: 'style.[contenthash].css'
     }),
     new webpack.DefinePlugin({
       'process.env': {
-        NODE_ENV: JSON.stringify(process.env.NODE_ENV)
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+        DEPLOY_ENV: JSON.stringify(process.env.DEPLOY_ENV)
       },
       'VERSION': JSON.stringify(version),
       'SERVER': JSON.stringify(server)
@@ -137,5 +135,7 @@ module.exports = {
       G2: 'g2',
       Antd: 'antd',
     }),
+    new webpack.optimize.LimitChunkCountPlugin({maxChunks: 15}),
+    new FriendlyErrorsPlugin(),
   ]
 }
