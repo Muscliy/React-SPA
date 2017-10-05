@@ -24,7 +24,7 @@ if (process.env.NODE_ENV !== 'production') {
   app.use(webpackHotMiddleware(webpackCompiled));
 }
 
-var server = app.listen(9001, function() {
+var server = app.listen(7002, function() {
   var port = server.address().port;
   console.log('Open http://localhost:%s', port);
 });

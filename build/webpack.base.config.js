@@ -135,7 +135,9 @@ module.exports = {
       G2: 'g2',
       Antd: 'antd',
     }),
-    new webpack.optimize.LimitChunkCountPlugin({maxChunks: 15}),
+    new webpack.optimize.MinChunkSizePlugin({
+      minChunkSize: 300000 // Minimum number of characters
+    }),
     new FriendlyErrorsPlugin(),
   ]
 }
