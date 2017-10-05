@@ -2,6 +2,8 @@
 dist
 rev
 node_modules
+*/vendor.js
+*/vendor-manifest.json
 
 ### OSX template
 .DS_Store
