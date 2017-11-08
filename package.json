@@ -81,6 +81,7 @@
     "jquery": "^3.2.1",
     "microevent": "^1.0.0",
     "moment": "^2.18.1",
+    "onsenui": "^2.7.0",
     "prop-types": "^15.5.10",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
